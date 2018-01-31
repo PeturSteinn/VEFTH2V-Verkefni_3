@@ -1,4 +1,4 @@
-from bottle import route, run, error, static_file, request, template
+from bottle import route, run, error, static_file, template, os
 
 frettir = [
     {
@@ -56,4 +56,10 @@ def lidurB_frett(n):
 def server_static(filename):
     return static_file(filename, root='./resources')
 
-run()
+@error(404)
+def error404(error):
+    return '''<h1>Úps...</h1><h3>Síðan sem þú baðst um finnst ekki.</h3>
+           <h3><a href="/">Á heimasíðu</a></h3>
+           '''
+
+run(host="0.0.0.0", port=os.environ.get('PORT'))
